@@ -131,7 +131,9 @@ def verify_intron_retention(event, gene, counts_segments, counts_edges, counts_s
 
     seg_intron = sp.setdiff1d(seg_all, seg_exon1)
     seg_intron = sp.setdiff1d(seg_intron, seg_exon2)
-    assert(seg_intron.shape[0] > 0)
+    #assert(seg_intron.shape[0] > 0)
+    if not (seg_intron.shape[0] > 0):
+        return (verified, info)
 
     seg_lens = segs.segments[1, :] - segs.segments[0, :]
 

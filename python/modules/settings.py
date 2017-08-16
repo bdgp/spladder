@@ -166,7 +166,7 @@ def default_settings():
 
     ### edge limit for detecting events from a graph, if a graph has
     ### more edges, the gene will be ignored for event detection
-    CFG['detect_edge_limit'] = 50 #2000
+    CFG['detect_edge_limit'] = 2000 #2000
 
     return CFG
 
@@ -366,6 +366,7 @@ def parse_args(options, identity='main'):
             sys.exit(1)
     
     if identity == 'viz':
+        CFG['confidence_level'] = options.confidence
         CFG['event_id'] = options.event_id
 
         if options.transcripts in ['n', 'y']:
@@ -499,15 +500,22 @@ def set_confidence_level(CFG):
     CFG['cassette_exon']['min_cassette_region'] = 0.9
     CFG['cassette_exon']['min_cassette_rel_diff'] = 0.5 
 
+    #CFG['intron_retention']['min_retention_cov'] = 3
+    #CFG['intron_retention']['min_retention_region'] = 0.75
+    #CFG['intron_retention']['min_retention_rel_cov'] = 0.05
+    #CFG['intron_retention']['min_non_retention_count'] = 3
+   ##CFG['intron_retention']['max_retention_rel_cov'] = 1.5
+    #CFG['intron_retention']['min_retention_max_exon_fold_diff']  = 4
     ### settings for accepted intron retentions
     if not 'intron_retention' in CFG:
         CFG['intron_retention'] = dict()
     if CFG['confidence_level'] == 0:
       CFG['intron_retention']['min_retention_cov'] = 1
       CFG['intron_retention']['min_retention_region'] = 0.75 
-      CFG['intron_retention']['min_retention_rel_cov'] = 0.1
+      CFG['intron_retention']['min_retention_rel_cov'] = 0.01
       CFG['intron_retention']['max_retention_rel_cov'] = 2 
-      CFG['intron_retention']['min_retention_max_exon_fold_diff'] = 4
+      CFG['intron_retention']['min_retention_max_exon_fold_diff'] = 8
+      CFG['intron_retention']['min_non_retention_count'] = 1
     elif CFG['confidence_level'] == 1:
       CFG['intron_retention']['min_retention_cov'] = 2
       CFG['intron_retention']['min_retention_region'] = 0.75
@@ -530,4 +538,3 @@ def set_confidence_level(CFG):
     CFG['intron_retention']['read_filter'] = CFG['read_filter'] 
 
     return CFG
-

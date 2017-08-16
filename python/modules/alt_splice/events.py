@@ -24,7 +24,7 @@ def sort_events_full(event_list, CFG):
 def sort_events_by_event(event_list, CFG):
     # event_list = sort_events_by_event(event_list, CFG),
    
-    coord_list = sp.array([x.get_inner_coords() for x in event_list], dtype='double') 
+    coord_list = sp.array([x.get_inner_coords()[0:1] for x in event_list], dtype='double') 
     chr_list = sp.array([CFG['chrm_lookup'][x.chr] for x in event_list], dtype='double')
     strand_list = sp.array([x.strand == '-' for x in event_list], dtype = 'double')
     sort_list = sp.c_[chr_list, strand_list, coord_list]
@@ -93,7 +93,8 @@ def make_unique_by_strain(event_list):
                 assert(event_list[i - 1].strand == event_list[i].strand)
                 assert(event_list[i].strain.shape[0] == 1)
             else:
-                assert(event_list[i - 1].gene_name != event_list[i].gene_name)
+                #assert(event_list[i - 1].gene_name != event_list[i].gene_name)
+                pass
 
             idx = sp.where(event_list[i-1].strain == event_list[i].strain[0])[0]
             if idx.shape[0] > 0:

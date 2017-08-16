@@ -386,27 +386,27 @@ def check_annotation(CFG, genes):
             genes = genes[k_idx]
 
     ### check whether exons are part of multiple genes
-    exon_map = dict()
-    for i, g in enumerate(genes):
-        for t in range(len(g.exons)):
-            for e in range(g.exons[t].shape[0]):
-                k = frozenset(g.exons[t][e, :])
-                if k in exon_map:
-                    exon_map[k].append(g.name)
-                else:
-                    exon_map[k] = [g.name]
-    rm_ids = []
-    for exon in exon_map:
-        if sp.unique(exon_map[exon]).shape[0] > 1:
-            rm_ids.extend(exon_map[exon])
-    if len(rm_ids) > 0:
-        rm_ids = sp.unique(rm_ids)
-        print >> sys.stderr, 'WARNING: removing %i genes from given annotation that share exact exon coordines:' % rm_ids.shape[0]
-        print >> sys.stderr, 'list of excluded exons written to: %s' % (CFG['anno_fname'] + '.genes_excluded_exon_shared')
-        sp.savetxt(CFG['anno_fname'] + '.genes_excluded_exon_shared', rm_ids, fmt='%s', delimiter='\t')
-        gene_names = sp.array([x.name for x in genes], dtype='str')
-        k_idx = sp.where(~sp.in1d(gene_names, rm_ids))[0]
-        genes = genes[k_idx]
+    #exon_map = dict()
+    #for i, g in enumerate(genes):
+    #    for t in range(len(g.exons)):
+    #        for e in range(g.exons[t].shape[0]):
+    #            k = frozenset(g.exons[t][e, :])
+    #            if k in exon_map:
+    #                exon_map[k].append(g.name)
+    #            else:
+    #                exon_map[k] = [g.name]
+    #rm_ids = []
+    #for exon in exon_map:
+    #    if sp.unique(exon_map[exon]).shape[0] > 1:
+    #        rm_ids.extend(exon_map[exon])
+    #if len(rm_ids) > 0:
+    #    rm_ids = sp.unique(rm_ids)
+    #    print >> sys.stderr, 'WARNING: removing %i genes from given annotation that share exact exon coordines:' % rm_ids.shape[0]
+    #    print >> sys.stderr, 'list of excluded exons written to: %s' % (CFG['anno_fname'] + '.genes_excluded_exon_shared')
+    #    sp.savetxt(CFG['anno_fname'] + '.genes_excluded_exon_shared', rm_ids, fmt='%s', delimiter='\t')
+    #    gene_names = sp.array([x.name for x in genes], dtype='str')
+    #    k_idx = sp.where(~sp.in1d(gene_names, rm_ids))[0]
+    #    genes = genes[k_idx]
 
     ### check whether exons within the same transcript overlap
     rm_ids = []
@@ -430,5 +430,3 @@ def check_annotation(CFG, genes):
         sys.exit(1)
 
     return genes
-
-
