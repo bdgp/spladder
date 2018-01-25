@@ -256,8 +256,12 @@ def init_genes_gff3(infile, CFG=None, outfile=None):
 
         ### add exons
         if sl[2] in ['exon', 'pseudogenic_exon']:
-            trans_id = tags['Parent']
-            gene_id = trans2gene[trans_id]
+            trans_id = tags.get('Parent')
+            if trans_id is None:
+                continue
+            gene_id = trans2gene.get(trans_id)
+            if gene_id is None:
+                continue
             try:
                 t_idx = genes[gene_id].transcripts.index(trans_id)
             except ValueError:

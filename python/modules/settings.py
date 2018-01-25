@@ -511,10 +511,10 @@ def set_confidence_level(CFG):
         CFG['intron_retention'] = dict()
     if CFG['confidence_level'] == 0:
       CFG['intron_retention']['min_retention_cov'] = 1
-      CFG['intron_retention']['min_retention_region'] = 0.75 
+      CFG['intron_retention']['min_retention_region'] = 0.70 
       CFG['intron_retention']['min_retention_rel_cov'] = 0.01
-      CFG['intron_retention']['max_retention_rel_cov'] = 2 
-      CFG['intron_retention']['min_retention_max_exon_fold_diff'] = 8
+      CFG['intron_retention']['max_retention_rel_cov'] = 4
+      CFG['intron_retention']['min_retention_max_exon_fold_diff'] = 32
       CFG['intron_retention']['min_non_retention_count'] = 1
     elif CFG['confidence_level'] == 1:
       CFG['intron_retention']['min_retention_cov'] = 2
